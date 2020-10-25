@@ -21,7 +21,7 @@ _respondToCorrectEntry = function() {
 
 _respondToIncorrectEntry = function() {
     feedbackElem = document.getElementById('feedback');
-    feedbackElem.textContent = 'Sorry, that\'s incorrect.';
+    feedbackElem.textContent = 'Sorry, that\'s incorrect.  Try again.';
 }
 
 
