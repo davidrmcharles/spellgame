@@ -4,7 +4,24 @@ window.onload = function() {
 
 
 userPressedEnter = function() {
-    console.log('The user pressed enter!');
+    var userEntry = document.getElementById('user-entry-text').value;
+    if (userEntry.toLowerCase() === 'yay') {
+        _respondToCorrectEntry();
+    } else {
+        _respondToIncorrectEntry();
+    }
+}
+
+
+_respondToCorrectEntry = function() {
+    feedbackElem = document.getElementById('feedback');
+    feedbackElem.textContent = 'That\'s correct!';
+}
+
+
+_respondToIncorrectEntry = function() {
+    feedbackElem = document.getElementById('feedback');
+    feedbackElem.textContent = 'Sorry, that\'s incorrect.';
 }
 
 
