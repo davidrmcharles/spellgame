@@ -68,6 +68,8 @@ _presentFirstChallengeWord = function() {
 
     var hintElem = document.getElementById('hint');
     hintElem.textContent = _challengeWords[_challengeWordsIndex];
+
+    _updateChallengeWordAudio();
 }
 
 
@@ -80,6 +82,8 @@ _presentNextChallengeWord = function() {
     } else {
         var hintElem = document.getElementById('hint');
         hintElem.textContent = _challengeWords[_challengeWordsIndex];
+
+        _updateChallengeWordAudio();
     }
 }
 
@@ -98,6 +102,18 @@ _updateProgressBar = function() {
 
     var progressElem = document.getElementById('progress');
     progressElem.textContent = text;
+}
+
+
+_updateChallengeWordAudio = function() {
+    var audioFileBaseName = _challengeWords[_challengeWordsIndex];
+    audioFileBaseName = audioFileBaseName.replace("'", '').toLowerCase();
+
+    var sourceElem = document.getElementById('challenge-word-source');
+    sourceElem.src = '../audio/sight-words/' + audioFileBaseName + '.m4a';
+
+    var audioElem = document.getElementById('challenge-word');
+    audioElem.load();
 }
 
 
