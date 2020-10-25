@@ -62,7 +62,10 @@ _clearUserEntry = function() {
 
 _presentFirstChallengeWord = function() {
     _shuffleChallengeWords();
+
     _challengeWordsIndex = 0
+    _updateProgressBar();
+
     var hintElem = document.getElementById('hint');
     hintElem.textContent = _challengeWords[_challengeWordsIndex];
 }
@@ -70,12 +73,31 @@ _presentFirstChallengeWord = function() {
 
 _presentNextChallengeWord = function() {
     _challengeWordsIndex++;
+    _updateProgressBar();
+
     if (_challengeWordsIndex == _challengeWords.length) {
         _respondToUserWin();
     } else {
         var hintElem = document.getElementById('hint');
         hintElem.textContent = _challengeWords[_challengeWordsIndex];
     }
+}
+
+
+_updateProgressBar = function() {
+    text = Array.from(
+        Array(_challengeWords.length),
+        function(_, i) {
+            if (i < _challengeWordsIndex) {
+                return String.fromCharCode(9745)
+            } else {
+                return String.fromCharCode(9744);
+            }
+        }
+    ).join(' ');
+
+    var progressElem = document.getElementById('progress');
+    progressElem.textContent = text;
 }
 
 
