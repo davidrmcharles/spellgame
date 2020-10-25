@@ -61,6 +61,7 @@ _clearUserEntry = function() {
 
 
 _presentFirstChallengeWord = function() {
+    _shuffleChallengeWords();
     _challengeWordsIndex = 0
     var hintElem = document.getElementById('hint');
     hintElem.textContent = _challengeWords[_challengeWordsIndex];
@@ -101,3 +102,12 @@ _challengeWords = [
     'was',
     'do',
 ]
+
+
+_shuffleChallengeWords = function() {
+    for (var i = _challengeWords.length - 1; i > 0; i--) {
+        var rand = Math.floor(Math.random() * (i + 1));
+        [_challengeWords[i], _challengeWords[rand]] =
+            [_challengeWords[rand], _challengeWords[i]];
+    }
+}
