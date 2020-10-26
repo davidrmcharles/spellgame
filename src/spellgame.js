@@ -66,9 +66,6 @@ _presentFirstChallengeWord = function() {
     _challengeWordsIndex = 0
     _updateProgressBar();
 
-    var hintElem = document.getElementById('hint');
-    hintElem.textContent = _challengeWords[_challengeWordsIndex];
-
     _updateChallengeWordAudio();
 
     var elem = document.getElementById('user-entry-text');
@@ -83,9 +80,6 @@ _presentNextChallengeWord = function() {
     if (_challengeWordsIndex == _challengeWords.length) {
         _respondToUserWin();
     } else {
-        var hintElem = document.getElementById('hint');
-        hintElem.textContent = _challengeWords[_challengeWordsIndex];
-
         _updateChallengeWordAudio();
 
         var elem = document.getElementById('user-entry-text');
