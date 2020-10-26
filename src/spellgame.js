@@ -120,6 +120,7 @@ _updateChallengeWordAudio = function() {
 
     var audioElem = document.getElementById('challenge-word');
     audioElem.load();
+    audioElem.play();
 }
 
 
