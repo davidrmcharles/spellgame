@@ -70,6 +70,9 @@ _presentFirstChallengeWord = function() {
     hintElem.textContent = _challengeWords[_challengeWordsIndex];
 
     _updateChallengeWordAudio();
+
+    var elem = document.getElementById('user-entry-text');
+    elem.focus();
 }
 
 
@@ -84,6 +87,9 @@ _presentNextChallengeWord = function() {
         hintElem.textContent = _challengeWords[_challengeWordsIndex];
 
         _updateChallengeWordAudio();
+
+        var elem = document.getElementById('user-entry-text');
+        elem.focus();
     }
 }
 
