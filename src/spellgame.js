@@ -62,8 +62,8 @@ _challenge = {
 
     presentFirstWord: function() {
         this._shuffleWords();
-        this._wordIndex = 0
-        _updateProgressBar();
+        this._wordIndex = 0;
+        this._updateProgressBar();
         this._updateAudio();
 
         var elem = document.getElementById('user-entry-text');
@@ -73,7 +73,7 @@ _challenge = {
 
     presentNextWord: function() {
         ++this._wordIndex;
-        _updateProgressBar();
+        this._updateProgressBar();
 
         if (this._wordIndex == this._words.length) {
             _respondToUserWin();
@@ -86,16 +86,32 @@ _challenge = {
         }
     },
 
+    _updateProgressBar: function() {
+        text = Array.from(
+            Array(this._words.length),
+            function(_, i) {
+                if (i < this._wordIndex) {
+                    return String.fromCharCode(9745)
+                } else {
+                    return String.fromCharCode(9744);
+                }
+            }.bind(this)
+        ).join(' ');
+
+        var elem = document.getElementById('progress');
+        elem.textContent = text;
+    },
+
     _updateAudio: function() {
-        var audioFileBaseName = this._words[this._wordIndex];
-        audioFileBaseName = audioFileBaseName.replace("'", '').toLowerCase();
+        var audioToken = this._words[this._wordIndex];
+        audioToken = audioToken.replace("'", '').toLowerCase();
 
-        var sourceElem = document.getElementById('challenge-word-source');
-        sourceElem.src = '../audio/sight-words/' + audioFileBaseName + '.m4a';
+        var elem = document.getElementById('challenge-word-source');
+        elem.src = '../audio/sight-words/' + audioToken + '.m4a';
 
-        var audioElem = document.getElementById('challenge-word');
-        audioElem.load();
-        audioElem.play();
+        var elem = document.getElementById('challenge-word');
+        elem.load();
+        elem.play();
     },
 
     _shuffleWords: function() {
@@ -129,22 +145,6 @@ _challenge = {
         'do',
     ],
 
-}
-
-_updateProgressBar = function() {
-    text = Array.from(
-        Array(_challenge._words.length),
-        function(_, i) {
-            if (i < _challenge._wordIndex) {
-                return String.fromCharCode(9745)
-            } else {
-                return String.fromCharCode(9744);
-            }
-        }
-    ).join(' ');
-
-    var progressElem = document.getElementById('progress');
-    progressElem.textContent = text;
 }
 
 
