@@ -16,8 +16,6 @@ userPressedEnter = function() {
 
 
 _respondToCorrectEntry = function() {
-    var feedbackElem = document.getElementById('feedback');
-    feedbackElem.textContent = 'That\'s correct!';
     _clearUserEntry();
     _presentNextChallengeWord();
 }
@@ -26,6 +24,7 @@ _respondToCorrectEntry = function() {
 _respondToIncorrectEntry = function() {
     var feedbackElem = document.getElementById('feedback');
     feedbackElem.textContent = 'Sorry, that\'s incorrect.  Try again.';
+    _fadeFeedbackText();
 }
 
 
@@ -36,7 +35,9 @@ _respondToUserWin = function() {
     var userEntryBoxElem = document.getElementById('user-entry-box');
     userEntryBoxElem.hidden = true;
 
+    clearInterval(_feedbackTimerHandle);
     var feedbackElem = document.getElementById('feedback');
+    feedbackElem.style.opacity = 1.0;
     feedbackElem.textContent = 'YOU WIN!';
 }
 
@@ -80,6 +81,10 @@ _presentNextChallengeWord = function() {
     if (_challengeWordsIndex == _challengeWords.length) {
         _respondToUserWin();
     } else {
+        var feedbackElem = document.getElementById('feedback');
+        feedbackElem.textContent = 'That\'s correct!';
+        _fadeFeedbackText();
+
         _updateChallengeWordAudio();
 
         var elem = document.getElementById('user-entry-text');
@@ -120,6 +125,7 @@ _updateChallengeWordAudio = function() {
 
 _challengeWordsIndex = 0
 
+
 _challengeWords = [
     'some',
     'walk',
@@ -148,5 +154,38 @@ _shuffleChallengeWords = function() {
         var rand = Math.floor(Math.random() * (i + 1));
         [_challengeWords[i], _challengeWords[rand]] =
             [_challengeWords[rand], _challengeWords[i]];
+    }
+}
+
+
+_fadeFeedbackText = function() {
+    clearInterval(_feedbackTimerHandle);
+    var elem = document.getElementById('feedback');
+    elem.style.opacity = 1.0;
+    _feedbackDelayCounter = 10;
+    _feedbackTimerHandle = setInterval(_updateFadeFeedbackText, 100);
+}
+
+
+_feedbackTimerHandle = null;
+
+
+_feedbackDelayCounter = null;
+
+
+_updateFadeFeedbackText = function() {
+    if (_feedbackDelayCounter > 0) {
+        console.log('delay');
+        --_feedbackDelayCounter;
+        return;
+    }
+
+    var elem = document.getElementById('feedback');
+    if (elem.style.opacity == 0.0) {
+        elem.textContent = '';
+        elem.style.opacity = 1.0;
+        clearInterval(_feedbackTimerHandle);
+    } else {
+        elem.style.opacity -= 0.1;
     }
 }
