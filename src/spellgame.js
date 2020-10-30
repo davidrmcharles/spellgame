@@ -107,14 +107,8 @@ _challenge = {
     },
 
     _presentVictory: function() {
-        this._hide();
         _userEntry.hide();
         _feedback.setPersistentText('YOU WIN!');
-    },
-
-    _hide: function() {
-        var elem = document.getElementById('challenge-box');
-        elem.hidden = true;
     },
 
     _updateProgressIndicator: function() {
