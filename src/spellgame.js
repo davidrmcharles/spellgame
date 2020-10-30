@@ -32,6 +32,7 @@ _userEntry = {
     handleHearIt: function() {
         var elem = document.getElementById('challenge-word');
         elem.play();
+        this.focus();
     },
 
     handleEntry: function() {
