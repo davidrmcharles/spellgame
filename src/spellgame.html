@@ -10,13 +10,14 @@
     <h3>spellgame - Sight Words</h3>
     <h3 id="progress"></h3>
     <div id="challenge-box">
-      <audio id="challenge-word" controls>
+      <audio id="challenge-word">
         <source id="challenge-word-source" src="yay.mp3" type="audio/mpeg"/>
       </audio>
       <h3 id="hint"></h3>
     </div>
     <h3 id="feedback">(Hints appear here.)</h3>
     <div id="user-entry-box">
+      <input type="button" value="Hear It" onclick="userPressedHearIt()"/>
       <label for="user-entry-text">Spell it:</label>
       <input type="text" id="user-entry-text"/>
       <input type="button" id="user-entry-button" value="Enter" onclick="userPressedEnter()"/>

@@ -8,8 +8,13 @@ window.onload = function() {
 }
 
 
+userPressedHearIt = function() {
+    _userEntry.handleHearIt();
+}
+
+
 userPressedEnter = function() {
-    _userEntry.handle();
+    _userEntry.handleEntry();
 }
 
 
@@ -24,7 +29,12 @@ _userEntry = {
         this._makeEnterKeyWorkLikeEnterButton();
     },
 
-    handle: function() {
+    handleHearIt: function() {
+        var elem = document.getElementById('challenge-word');
+        elem.play();
+    },
+
+    handleEntry: function() {
         var challengeWord = _challenge._words[_challenge._wordIndex];
         if (this._inputTextElem.value.toLowerCase() == challengeWord.toLowerCase()) {
             this._handleCorrectEntry();
