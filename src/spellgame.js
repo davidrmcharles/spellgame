@@ -1,60 +1,74 @@
-window.onload = function() {
-    _makeEnterKeyWorkLikeEnterButton();
-    _feedback.init();
+// Public Interface
 
+
+window.onload = function() {
+    _userEntry.init();
+    _feedback.init();
     _challenge.presentFirstWord();
 }
 
 
 userPressedEnter = function() {
-    var userEntryText = document.getElementById('user-entry-text').value;
-    var challengeWord = _challenge._words[_challenge._wordIndex];
-    if (userEntryText.toLowerCase() === challengeWord.toLowerCase()) {
-        _respondToCorrectEntry();
-    } else {
-        _respondToIncorrectEntry();
-    }
+    _userEntry.handle();
 }
 
 
-_respondToCorrectEntry = function() {
-    _clearUserEntry();
-    _challenge.presentNextWord();
-}
+// Details
 
 
-_respondToIncorrectEntry = function() {
-    _feedback.setFadingText('Sorry, that\'s incorrect.  Try again.');
-}
+_userEntry = {
 
+    init: function() {
+        this._inputTextElem = document.getElementById('user-entry-text');
+        this._inputButtonElem = document.getElementById('user-entry-button');
+        this._makeEnterKeyWorkLikeEnterButton();
+    },
 
-_respondToUserWin = function() {
-    var challengeBoxElem = document.getElementById('challenge-box');
-    challengeBoxElem.hidden = true;
-
-    var userEntryBoxElem = document.getElementById('user-entry-box');
-    userEntryBoxElem.hidden = true;
-
-    _feedback.setPersistentText('YOU WIN!');
-}
-
-
-_makeEnterKeyWorkLikeEnterButton = function() {
-    document.getElementById('user-entry-text').addEventListener(
-        'keyup',
-        function(event) {
-            event.preventDefault();
-            if (event.keyCode === 13) {
-                document.getElementById('user-entry-button').click();
-            }
+    handle: function() {
+        var challengeWord = _challenge._words[_challenge._wordIndex];
+        if (this._inputTextElem.value.toLowerCase() == challengeWord.toLowerCase()) {
+            this._handleCorrectEntry();
+        } else {
+            this._handleIncorrectEntry();
         }
-    )
-}
+    },
 
+    focus: function() {
+        this._inputTextElem.focus();
+    },
 
-_clearUserEntry = function() {
-    var userEntryText = document.getElementById('user-entry-text');
-    userEntryText.value = '';
+    hide: function() {
+        var elem = document.getElementById('user-entry-box');
+        elem.hidden = true;
+    },
+
+    _handleCorrectEntry: function() {
+        this._clear();
+        _challenge.presentNextWord();
+    },
+
+    _handleIncorrectEntry: function() {
+        _feedback.setFadingText('Sorry, that\'s incorrect.  Try again.');
+    },
+
+    _clear: function() {
+        this._inputTextElem.value = '';
+    },
+
+    _makeEnterKeyWorkLikeEnterButton: function() {
+        this._inputTextElem.addEventListener(
+            'keyup',
+            function(event) {
+                event.preventDefault();
+                if (event.keyCode === 13) {
+                    this._inputButtonElem.click();
+                }
+            }.bind(this)
+        )
+    },
+
+    _inputTextElem: null,
+    _inputButtonElem: null,
 }
 
 
@@ -65,25 +79,32 @@ _challenge = {
         this._wordIndex = 0;
         this._updateProgressBar();
         this._updateAudio();
-
-        var elem = document.getElementById('user-entry-text');
-        elem.focus();
+        _userEntry.focus();
     },
-
 
     presentNextWord: function() {
         ++this._wordIndex;
         this._updateProgressBar();
 
         if (this._wordIndex == this._words.length) {
-            _respondToUserWin();
+            this._presentVictory();
         } else {
             _feedback.setFadingText('That\'s correct!');
             this._updateAudio();
 
-            var elem = document.getElementById('user-entry-text');
-            elem.focus();
+            _userEntry.focus();
         }
+    },
+
+    _presentVictory: function() {
+        this._hide();
+        _userEntry.hide();
+        _feedback.setPersistentText('YOU WIN!');
+    },
+
+    _hide: function() {
+        var elem = document.getElementById('challenge-box');
+        elem.hidden = true;
     },
 
     _updateProgressBar: function() {
