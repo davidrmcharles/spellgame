@@ -120,6 +120,13 @@ _challenge = {
     _presentVictory: function() {
         _userEntry.hide();
         _feedback.setPersistentText('YOU WIN!');
+
+        var elem = document.getElementById('challenge-word-source');
+        elem.src = 'audio/yay.mp3';
+
+        var elem = document.getElementById('challenge-word');
+        elem.load();
+        elem.play();
     },
 
     _updateProgressIndicator: function() {
