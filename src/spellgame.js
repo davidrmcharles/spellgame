@@ -1,6 +1,7 @@
 window.onload = function() {
     _makeEnterKeyWorkLikeEnterButton();
     _presentFirstChallengeWord();
+    _feedback.init();
 }
 
 
@@ -22,9 +23,7 @@ _respondToCorrectEntry = function() {
 
 
 _respondToIncorrectEntry = function() {
-    var feedbackElem = document.getElementById('feedback');
-    feedbackElem.textContent = 'Sorry, that\'s incorrect.  Try again.';
-    _fadeFeedbackText();
+    _feedback.setFadingText('Sorry, that\'s incorrect.  Try again.');
 }
 
 
@@ -35,10 +34,7 @@ _respondToUserWin = function() {
     var userEntryBoxElem = document.getElementById('user-entry-box');
     userEntryBoxElem.hidden = true;
 
-    clearInterval(_feedbackTimerHandle);
-    var feedbackElem = document.getElementById('feedback');
-    feedbackElem.style.opacity = 1.0;
-    feedbackElem.textContent = 'YOU WIN!';
+    _feedback.setPersistentText('YOU WIN!');
 }
 
 
@@ -81,10 +77,7 @@ _presentNextChallengeWord = function() {
     if (_challengeWordsIndex == _challengeWords.length) {
         _respondToUserWin();
     } else {
-        var feedbackElem = document.getElementById('feedback');
-        feedbackElem.textContent = 'That\'s correct!';
-        _fadeFeedbackText();
-
+        _feedback.setFadingText('That\'s correct!');
         _updateChallengeWordAudio();
 
         var elem = document.getElementById('user-entry-text');
@@ -158,34 +151,52 @@ _shuffleChallengeWords = function() {
 }
 
 
-_fadeFeedbackText = function() {
-    clearInterval(_feedbackTimerHandle);
-    var elem = document.getElementById('feedback');
-    elem.style.opacity = 1.0;
-    _feedbackDelayCounter = 10;
-    _feedbackTimerHandle = setInterval(_updateFadeFeedbackText, 100);
-}
+_feedback = {
 
+    init: function() {
+        this._elem = document.getElementById('feedback');
+    },
 
-_feedbackTimerHandle = null;
+    setFadingText: function(text) {
+        this._elem.textContent = text;
+        this._startFade();
+    },
 
+    setPersistentText: function(text) {
+        this._stopFade();
+        this._elem.textContent = text;
+    },
 
-_feedbackDelayCounter = null;
+    _startFade: function() {
+        this._stopFade();
+        this._delayCounter = 10;
+        this._timerHandle = setInterval(
+            function() {
+                this._updateFade();
+            }.bind(this),
+            100
+        );
+    },
 
+    _updateFade: function() {
+        if (this._delayCounter > 0) {
+            --this._delayCounter;
+        } else if (this._elem.style.opacity == 0.0) {
+            this._elem.textContent = '';
+            this._stopFade();
+        } else {
+            this._elem.style.opacity -= 0.1;
+        }
+    },
 
-_updateFadeFeedbackText = function() {
-    if (_feedbackDelayCounter > 0) {
-        console.log('delay');
-        --_feedbackDelayCounter;
-        return;
-    }
+    _stopFade: function() {
+        clearInterval(this._timerHandle);
+        this._timerHandle = null;
+        this._elem.style.opacity = 1.0;
+    },
 
-    var elem = document.getElementById('feedback');
-    if (elem.style.opacity == 0.0) {
-        elem.textContent = '';
-        elem.style.opacity = 1.0;
-        clearInterval(_feedbackTimerHandle);
-    } else {
-        elem.style.opacity -= 0.1;
-    }
+    _elem: null,
+    _timerHandle: null,
+    _delayCounter: null,
+
 }
