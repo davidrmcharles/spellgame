@@ -1,13 +1,14 @@
 window.onload = function() {
     _makeEnterKeyWorkLikeEnterButton();
-    _presentFirstChallengeWord();
     _feedback.init();
+
+    _challenge.presentFirstWord();
 }
 
 
 userPressedEnter = function() {
     var userEntryText = document.getElementById('user-entry-text').value;
-    var challengeWord = _challengeWords[_challengeWordsIndex];
+    var challengeWord = _challenge._words[_challenge._wordIndex];
     if (userEntryText.toLowerCase() === challengeWord.toLowerCase()) {
         _respondToCorrectEntry();
     } else {
@@ -18,7 +19,7 @@ userPressedEnter = function() {
 
 _respondToCorrectEntry = function() {
     _clearUserEntry();
-    _presentNextChallengeWord();
+    _challenge.presentNextWord();
 }
 
 
@@ -57,40 +58,84 @@ _clearUserEntry = function() {
 }
 
 
-_presentFirstChallengeWord = function() {
-    _shuffleChallengeWords();
+_challenge = {
 
-    _challengeWordsIndex = 0
-    _updateProgressBar();
-
-    _updateChallengeWordAudio();
-
-    var elem = document.getElementById('user-entry-text');
-    elem.focus();
-}
-
-
-_presentNextChallengeWord = function() {
-    _challengeWordsIndex++;
-    _updateProgressBar();
-
-    if (_challengeWordsIndex == _challengeWords.length) {
-        _respondToUserWin();
-    } else {
-        _feedback.setFadingText('That\'s correct!');
-        _updateChallengeWordAudio();
+    presentFirstWord: function() {
+        this._shuffleWords();
+        this._wordIndex = 0
+        _updateProgressBar();
+        this._updateAudio();
 
         var elem = document.getElementById('user-entry-text');
         elem.focus();
-    }
-}
+    },
 
+
+    presentNextWord: function() {
+        ++this._wordIndex;
+        _updateProgressBar();
+
+        if (this._wordIndex == this._words.length) {
+            _respondToUserWin();
+        } else {
+            _feedback.setFadingText('That\'s correct!');
+            this._updateAudio();
+
+            var elem = document.getElementById('user-entry-text');
+            elem.focus();
+        }
+    },
+
+    _updateAudio: function() {
+        var audioFileBaseName = this._words[this._wordIndex];
+        audioFileBaseName = audioFileBaseName.replace("'", '').toLowerCase();
+
+        var sourceElem = document.getElementById('challenge-word-source');
+        sourceElem.src = '../audio/sight-words/' + audioFileBaseName + '.m4a';
+
+        var audioElem = document.getElementById('challenge-word');
+        audioElem.load();
+        audioElem.play();
+    },
+
+    _shuffleWords: function() {
+        for (var i = this._words.length - 1; i > 0; i--) {
+            var rand = Math.floor(Math.random() * (i + 1));
+            [this._words[i], this._words[rand]] =
+                [this._words[rand], this._words[i]];
+        }
+    },
+
+    _wordIndex: 0,
+    _words: [
+        'some',
+        'walk',
+        'talk',
+        'a',
+        'you',
+        'come',
+        'look',
+        'want',
+        'girl',
+        'his',
+        'don\'t',
+        'said',
+        'to',
+        'oh',
+        'of',
+        'I',
+        'has',
+        'was',
+        'do',
+    ],
+
+}
 
 _updateProgressBar = function() {
     text = Array.from(
-        Array(_challengeWords.length),
+        Array(_challenge._words.length),
         function(_, i) {
-            if (i < _challengeWordsIndex) {
+            if (i < _challenge._wordIndex) {
                 return String.fromCharCode(9745)
             } else {
                 return String.fromCharCode(9744);
@@ -100,54 +145,6 @@ _updateProgressBar = function() {
 
     var progressElem = document.getElementById('progress');
     progressElem.textContent = text;
-}
-
-
-_updateChallengeWordAudio = function() {
-    var audioFileBaseName = _challengeWords[_challengeWordsIndex];
-    audioFileBaseName = audioFileBaseName.replace("'", '').toLowerCase();
-
-    var sourceElem = document.getElementById('challenge-word-source');
-    sourceElem.src = '../audio/sight-words/' + audioFileBaseName + '.m4a';
-
-    var audioElem = document.getElementById('challenge-word');
-    audioElem.load();
-    audioElem.play();
-}
-
-
-_challengeWordsIndex = 0
-
-
-_challengeWords = [
-    'some',
-    'walk',
-    'talk',
-    'a',
-    'you',
-    'come',
-    'look',
-    'want',
-    'girl',
-    'his',
-    'don\'t',
-    'said',
-    'to',
-    'oh',
-    'of',
-    'I',
-    'has',
-    'was',
-    'do',
-]
-
-
-_shuffleChallengeWords = function() {
-    for (var i = _challengeWords.length - 1; i > 0; i--) {
-        var rand = Math.floor(Math.random() * (i + 1));
-        [_challengeWords[i], _challengeWords[rand]] =
-            [_challengeWords[rand], _challengeWords[i]];
-    }
 }
 
 
