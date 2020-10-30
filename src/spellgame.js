@@ -128,7 +128,7 @@ _challenge = {
         audioToken = audioToken.replace("'", '').toLowerCase();
 
         var elem = document.getElementById('challenge-word-source');
-        elem.src = '../audio/sight-words/' + audioToken + '.m4a';
+        elem.src = 'audio/sight-words/' + audioToken + '.m4a';
 
         var elem = document.getElementById('challenge-word');
         elem.load();
