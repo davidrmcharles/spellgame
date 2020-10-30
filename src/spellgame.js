@@ -113,7 +113,7 @@ _challenge = {
 
     _updateProgressIndicator: function() {
         var elem = document.getElementById('progress');
-        elem.textContent = `Progress: ${this._wordIndex + 1} / ${this._words.length}`;
+        elem.textContent = `Progress: ${this._wordIndex} / ${this._words.length}`;
     },
 
     _updateAudio: function() {
