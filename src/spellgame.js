@@ -36,7 +36,7 @@ _userEntry = {
     },
 
     handleEntry: function() {
-        var challengeWord = _challenge._words[_challenge._wordIndex];
+        var challengeWord = _challenge._words[_challenge._wordIndex].word;
         if (this._inputTextElem.value.toLowerCase() == challengeWord.toLowerCase()) {
             this._handleCorrectEntry();
         } else {
@@ -89,6 +89,7 @@ _challenge = {
         this._shuffleWords();
         this._wordIndex = 0;
         this._updateProgressIndicator();
+        _feedback.displayHint();
         this._updateAudio();
         _userEntry.focus();
     },
@@ -118,7 +119,7 @@ _challenge = {
     },
 
     _updateAudio: function() {
-        var audioToken = this._words[this._wordIndex];
+        var audioToken = this._words[this._wordIndex].word;
         audioToken = audioToken.replace("'", '').toLowerCase();
 
         var elem = document.getElementById('challenge-word-source');
@@ -139,25 +140,25 @@ _challenge = {
 
     _wordIndex: 0,
     _words: [
-        'some',
-        'walk',
-        'talk',
-        'a',
-        'you',
-        'come',
-        'look',
-        'want',
-        'girl',
-        'his',
-        'don\'t',
-        'said',
-        'to',
-        'oh',
-        'of',
-        'I',
-        'has',
-        'was',
-        'do',
+        {'word': 'some', 'hint': 'Meaning "a few"'},
+        {'word': 'walk', 'hint': null},
+        {'word': 'talk', 'hint': null},
+        {'word': 'a', 'hint': null},
+        {'word': 'you', 'hint': null},
+        {'word': 'come', 'hint': null},
+        {'word': 'look', 'hint': null},
+        {'word': 'want', 'hint': null},
+        {'word': 'girl', 'hint': null},
+        {'word': 'his', 'hint': null},
+        {'word': 'don\'t', 'hint': null},
+        {'word': 'said', 'hint': null},
+        {'word': 'to', 'hint': 'Meaning a "direction"'},
+        {'word': 'oh', 'hint': 'An expression of surprise'},
+        {'word': 'of', 'hint': null},
+        {'word': 'I', 'hint': 'Not the "eye" that sees'},
+        {'word': 'has', 'hint': null},
+        {'word': 'was', 'hint': null},
+        {'word': 'do', 'hint': 'Meaning "act"'},
     ],
 
 }
@@ -167,6 +168,14 @@ _feedback = {
 
     init: function() {
         this._elem = document.getElementById('feedback');
+    },
+
+    displayHint: function() {
+        var hint = _challenge._words[_challenge._wordIndex].hint
+        if (hint == null) {
+            hint = '(Hints appear here.)';
+        }
+        this._elem.textContent = hint;
     },
 
     setFadingText: function(text) {
@@ -194,7 +203,7 @@ _feedback = {
         if (this._delayCounter > 0) {
             --this._delayCounter;
         } else if (this._elem.style.opacity == 0.0) {
-            this._elem.textContent = '(Hints appear here.)';
+            this.displayHint();
             this._stopFade();
         } else {
             this._elem.style.opacity -= 0.1;
