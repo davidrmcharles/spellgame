@@ -59,7 +59,14 @@ _userEntry = {
     },
 
     _handleIncorrectEntry: function() {
-        _feedback.setFadingText('Sorry, that\'s incorrect.  Try again.');
+        ++_challenge._mistakeCount;
+        if (_challenge._mistakeCount < 2) {
+            _feedback.setFadingText('Sorry, that\'s incorrect.  Try again.');
+        } else {
+            _feedback.setPersistentText(
+                `The answer is: ${_challenge._words[_challenge._wordIndex].word}`
+            );
+        }
     },
 
     _clear: function() {
@@ -86,8 +93,9 @@ _userEntry = {
 _challenge = {
 
     presentFirstWord: function() {
-        this._shuffleWords();
         this._wordIndex = 0;
+        this._mistakeCount = 0;
+        this._shuffleWords();
         this._updateProgressIndicator();
         _feedback.displayHint();
         this._updateAudio();
@@ -96,6 +104,7 @@ _challenge = {
 
     presentNextWord: function() {
         ++this._wordIndex;
+        this._mistakeCount = 0;
         this._updateProgressIndicator();
 
         if (this._wordIndex == this._words.length) {
@@ -160,6 +169,7 @@ _challenge = {
         {'word': 'was', 'hint': null},
         {'word': 'do', 'hint': 'Meaning "act"'},
     ],
+    _mistakeCount: 0,
 
 }
 
