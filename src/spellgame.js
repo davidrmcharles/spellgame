@@ -87,14 +87,14 @@ _challenge = {
     presentFirstWord: function() {
         this._shuffleWords();
         this._wordIndex = 0;
-        this._updateProgressBar();
+        this._updateProgressIndicator();
         this._updateAudio();
         _userEntry.focus();
     },
 
     presentNextWord: function() {
         ++this._wordIndex;
-        this._updateProgressBar();
+        this._updateProgressIndicator();
 
         if (this._wordIndex == this._words.length) {
             this._presentVictory();
@@ -117,20 +117,9 @@ _challenge = {
         elem.hidden = true;
     },
 
-    _updateProgressBar: function() {
-        text = Array.from(
-            Array(this._words.length),
-            function(_, i) {
-                if (i < this._wordIndex) {
-                    return String.fromCharCode(9745)
-                } else {
-                    return String.fromCharCode(9744);
-                }
-            }.bind(this)
-        ).join(' ');
-
+    _updateProgressIndicator: function() {
         var elem = document.getElementById('progress');
-        elem.textContent = text;
+        elem.textContent = `Progress: ${this._wordIndex + 1} / ${this._words.length}`;
     },
 
     _updateAudio: function() {
