@@ -207,7 +207,7 @@ _feedback = {
 
     _startFade: function() {
         this._stopFade();
-        this._delayCounter = 10;
+        this._delayCounter = 5;
         this._timerHandle = setInterval(
             function() {
                 this._updateFade();
