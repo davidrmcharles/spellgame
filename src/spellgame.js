@@ -190,7 +190,7 @@ _feedback = {
     displayHint: function() {
         var hint = _challenge._words[_challenge._wordIndex].hint
         if (hint == null) {
-            hint = '(Hints appear here.)';
+            hint = '(Hints appear here)';
         }
         this._elem.textContent = hint;
     },
