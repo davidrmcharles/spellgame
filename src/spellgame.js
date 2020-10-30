@@ -200,7 +200,7 @@ _feedback = {
         if (this._delayCounter > 0) {
             --this._delayCounter;
         } else if (this._elem.style.opacity == 0.0) {
-            this._elem.textContent = '';
+            this._elem.textContent = '(Hints appear here.)';
             this._stopFade();
         } else {
             this._elem.style.opacity -= 0.1;
