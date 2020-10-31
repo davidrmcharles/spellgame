@@ -99,6 +99,65 @@ _controls = {
 }
 
 
+_feedback = {
+
+    init: function() {
+        this._elem = document.getElementById('feedback');
+    },
+
+    displayHint: function() {
+        var hint = _challenge.word().hint
+        if (hint == null) {
+            hint = '(Hints appear here)';
+        }
+        this._elem.textContent = hint;
+    },
+
+    setFadingText: function(text) {
+        this._elem.textContent = text;
+        this._startFade();
+    },
+
+    setPersistentText: function(text) {
+        this._stopFade();
+        this._elem.textContent = text;
+    },
+
+    _startFade: function() {
+        this._stopFade();
+        this._delayCounter = 5;
+        this._timerHandle = setInterval(
+            function() {
+                this._updateFade();
+            }.bind(this),
+            100
+        );
+    },
+
+    _updateFade: function() {
+        if (this._delayCounter > 0) {
+            --this._delayCounter;
+        } else if (this._elem.style.opacity == 0.0) {
+            this.displayHint();
+            this._stopFade();
+        } else {
+            this._elem.style.opacity -= 0.1;
+        }
+    },
+
+    _stopFade: function() {
+        clearInterval(this._timerHandle);
+        this._timerHandle = null;
+        this._elem.style.opacity = 1.0;
+    },
+
+    _elem: null,
+    _timerHandle: null,
+    _delayCounter: null,
+
+}
+
+
 _challenge = {
 
     init: function() {
@@ -198,64 +257,5 @@ _challenge = {
         {'word': 'do', 'hint': 'Meaning "act"'},
     ],
     _mistakeCount: 0,
-
-}
-
-
-_feedback = {
-
-    init: function() {
-        this._elem = document.getElementById('feedback');
-    },
-
-    displayHint: function() {
-        var hint = _challenge.word().hint
-        if (hint == null) {
-            hint = '(Hints appear here)';
-        }
-        this._elem.textContent = hint;
-    },
-
-    setFadingText: function(text) {
-        this._elem.textContent = text;
-        this._startFade();
-    },
-
-    setPersistentText: function(text) {
-        this._stopFade();
-        this._elem.textContent = text;
-    },
-
-    _startFade: function() {
-        this._stopFade();
-        this._delayCounter = 5;
-        this._timerHandle = setInterval(
-            function() {
-                this._updateFade();
-            }.bind(this),
-            100
-        );
-    },
-
-    _updateFade: function() {
-        if (this._delayCounter > 0) {
-            --this._delayCounter;
-        } else if (this._elem.style.opacity == 0.0) {
-            this.displayHint();
-            this._stopFade();
-        } else {
-            this._elem.style.opacity -= 0.1;
-        }
-    },
-
-    _stopFade: function() {
-        clearInterval(this._timerHandle);
-        this._timerHandle = null;
-        this._elem.style.opacity = 1.0;
-    },
-
-    _elem: null,
-    _timerHandle: null,
-    _delayCounter: null,
 
 }
