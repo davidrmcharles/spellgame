@@ -7,6 +7,7 @@ window.onload = function() {
     _challenge.init();
     _challenge.presentFirstWord();
     _controls.focus();
+    _feedback.displayHint();
 }
 
 
@@ -56,12 +57,13 @@ _controls = {
 
     _handleCorrectEntry: function() {
         this._clear();
-        if (_challenge.presentNextWord()) {
-            _controls.focus();
-        } else {
+        if (!_challenge.presentNextWord()) {
             _controls.hide();
             _feedback.setPersistentText('YOU WIN!');
             _challenge.playVictoryAudio();
+        } else {
+            _controls.focus();
+            _feedback.setFadingText('That\'s correct!');
         }
     },
 
@@ -109,7 +111,6 @@ _challenge = {
         this._mistakeCount = 0;
         this._shuffleWords();
         this._updateProgressIndicator();
-        _feedback.displayHint();
         this._updateAudio();
     },
 
@@ -121,7 +122,6 @@ _challenge = {
         if (this._wordIndex == this._words.length) {
             return false;
         } else {
-            _feedback.setFadingText('That\'s correct!');
             this._updateAudio();
             return true;
         }
