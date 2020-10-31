@@ -25,8 +25,9 @@ class TestInit(unittest.TestCase):
 
     def _test(self):
         try:
-            self.driver.get(f'file:///{_project_folder}/src/spellgame.html')
+            self.driver.get(f'file:///{_project_folder}/src/spellgame.html?istest=true')
             self._test_progressindicator_has_text()
+            self._test_feedback_has_text()
             self._test_inputtext_is_focused()
         finally:
             self.driver.close()
@@ -34,6 +35,10 @@ class TestInit(unittest.TestCase):
     def _test_progressindicator_has_text(self):
         elem = self.driver.find_element_by_id('progress')
         self.assertEqual('Progress: 0 / 19', elem.text)
+
+    def _test_feedback_has_text(self):
+        elem = self.driver.find_element_by_id('feedback')
+        self.assertIn('few', elem.text)
 
     def _test_inputtext_is_focused(self):
         elem = self.driver.find_element_by_id('user-entry-text')

@@ -202,7 +202,9 @@ _challenge = {
     _presentFirstWord: function() {
         this._wordIndex = 0;
         this._mistakeCount = 0;
-        this._shuffleWords();
+        if (!_is_test()) {
+            this._shuffleWords();
+        }
         this._updateProgressIndicator();
         this._updateAudio();
     },
@@ -258,4 +260,9 @@ _challenge = {
     ],
     _mistakeCount: 0,
 
+}
+
+
+_is_test = function() {
+    return 'true' == new URL(window.location).searchParams.get('istest')
 }
