@@ -55,7 +55,21 @@ class TestInit(_TestBase):
         self.assert_inputtext_is_focused()
 
 
-class TestCorrectAnswerReturn(_TestBase):
+class _TestCorrectAnswerBase(_TestBase):
+
+    def _test_with_page(self):
+        self._enter_correct_answer()
+
+        self.assert_progress_text_equals('Progress: 1 / 19')
+        self.assert_feedback_text_has('correct')
+        self.assert_inputtext_is_focused()
+
+        time.sleep(2)
+
+        self.assert_feedback_text_has('here')
+
+
+class TestCorrectAnswerReturn(_TestCorrectAnswerBase):
     '''
     Test the response to a correct answer with the RETURN key.
     '''
@@ -68,24 +82,13 @@ class TestCorrectAnswerReturn(_TestBase):
         self.driver = webdriver.Firefox()
         self._test_with_driver()
 
-    def _test_with_page(self):
-        self._enter_correct_answer()
-
-        self.assert_progress_text_equals('Progress: 1 / 19')
-        self.assert_feedback_text_has('correct')
-        self.assert_inputtext_is_focused()
-
-        time.sleep(2)
-
-        self.assert_feedback_text_has('here')
-
     def _enter_correct_answer(self):
         elem = self.driver.find_element_by_id('user-entry-text')
         elem.send_keys('some')
         elem.send_keys(Keys.RETURN)
 
 
-class TestCorrectAnswerClick(_TestBase):
+class TestCorrectAnswerClick(_TestCorrectAnswerBase):
     '''
     Test the response to a correct answer with a click of the 'Enter'
     button.
@@ -98,17 +101,6 @@ class TestCorrectAnswerClick(_TestBase):
     def test_firefox(self):
         self.driver = webdriver.Firefox()
         self._test_with_driver()
-
-    def _test_with_page(self):
-        self._enter_correct_answer()
-
-        self.assert_progress_text_equals('Progress: 1 / 19')
-        self.assert_feedback_text_has('correct')
-        self.assert_inputtext_is_focused()
-
-        time.sleep(2)
-
-        self.assert_feedback_text_has('here')
 
     def _enter_correct_answer(self):
         elem = self.driver.find_element_by_id('user-entry-text')
