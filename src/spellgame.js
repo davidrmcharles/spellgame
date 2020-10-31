@@ -68,8 +68,8 @@ _controls = {
     },
 
     _handleIncorrectEntry: function() {
-        ++_challenge._mistakeCount;
-        if (_challenge._mistakeCount < 2) {
+        _challenge.addMistake();
+        if (_challenge.mistakeCount() < 2) {
             _feedback.setFadingText('Sorry, that\'s incorrect.  Try again.');
         } else {
             _feedback.setPersistentText(
@@ -138,6 +138,14 @@ _challenge = {
     playVictoryAudio: function() {
         this._loadAudio('audio/yay.mp3');
         this.playAudio();
+    },
+
+    addMistake: function() {
+        ++this._mistakeCount;
+    },
+
+    mistakeCount: function() {
+        return this._mistakeCount;
     },
 
     _updateProgressIndicator: function() {
