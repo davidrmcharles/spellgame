@@ -129,6 +129,16 @@ class _TestIncorrectAnswerBase(_TestBase):
         self.assert_feedback_text_equals('The answer is: some')
         self.assert_inputtext_is_focused()
 
+        self._enter_correct_answer()
+
+        self.assert_progress_text_equals('Progress: 1 / 19')
+        self.assert_feedback_text_has('correct')
+        self.assert_inputtext_is_focused()
+
+        time.sleep(2)
+
+        self.assert_feedback_text_has('here')
+
 
 class TestIncorrectAnswerReturn(_TestIncorrectAnswerBase):
     '''
@@ -145,7 +155,14 @@ class TestIncorrectAnswerReturn(_TestIncorrectAnswerBase):
 
     def _enter_incorrect_answer(self):
         elem = self.driver.find_element_by_id('user-entry-text')
+        elem.clear()
         elem.send_keys('sum')
+        elem.send_keys(Keys.RETURN)
+
+    def _enter_correct_answer(self):
+        elem = self.driver.find_element_by_id('user-entry-text')
+        elem.clear()
+        elem.send_keys('some')
         elem.send_keys(Keys.RETURN)
 
 
@@ -165,7 +182,16 @@ class TestIncorrectAnswerClick(_TestIncorrectAnswerBase):
 
     def _enter_incorrect_answer(self):
         elem = self.driver.find_element_by_id('user-entry-text')
+        elem.clear()
         elem.send_keys('sum')
+
+        elem = self.driver.find_element_by_id('user-entry-button')
+        elem.click()
+
+    def _enter_correct_answer(self):
+        elem = self.driver.find_element_by_id('user-entry-text')
+        elem.clear()
+        elem.send_keys('some')
 
         elem = self.driver.find_element_by_id('user-entry-button')
         elem.click()
