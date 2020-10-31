@@ -222,6 +222,9 @@ class _TestWinBase(_TestBase):
 
 
 class TestWinReturn(_TestWinBase):
+    '''
+    Test the response to winning the the game with the RETURN key.
+    '''
 
     def test_chrome(self):
         self.driver = webdriver.Chrome()
@@ -236,6 +239,10 @@ class TestWinReturn(_TestWinBase):
 
 
 class TestWinClick(_TestWinBase):
+    '''
+    Test the response to winning the game with a click of the Enter
+    button.
+    '''
 
     def test_chrome(self):
         self.driver = webdriver.Chrome()
