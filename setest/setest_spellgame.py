@@ -39,6 +39,20 @@ class _TestBase(unittest.TestCase):
         elem = self.driver.find_element_by_id('user-entry-text')
         self.assertEqual(self.driver.switch_to.active_element, elem)
 
+    def answer_with_return(self, text):
+        elem = self.driver.find_element_by_id('user-entry-text')
+        elem.clear()
+        elem.send_keys(text)
+        elem.send_keys(Keys.RETURN)
+
+    def answer_with_click(self, text):
+        elem = self.driver.find_element_by_id('user-entry-text')
+        elem.clear()
+        elem.send_keys(text)
+
+        elem = self.driver.find_element_by_id('user-entry-button')
+        elem.click()
+
 
 class TestInit(_TestBase):
     '''
@@ -62,7 +76,7 @@ class TestInit(_TestBase):
 class _TestCorrectAnswerBase(_TestBase):
 
     def _test_with_page(self):
-        self._enter_correct_answer()
+        self.answer_correctly()
 
         self.assert_progress_text_equals('Progress: 1 / 19')
         self.assert_feedback_text_has('correct')
@@ -86,10 +100,8 @@ class TestCorrectAnswerReturn(_TestCorrectAnswerBase):
         self.driver = webdriver.Firefox()
         self._test_with_driver()
 
-    def _enter_correct_answer(self):
-        elem = self.driver.find_element_by_id('user-entry-text')
-        elem.send_keys('some')
-        elem.send_keys(Keys.RETURN)
+    def answer_correctly(self):
+        self.answer_with_return('some')
 
 
 class TestCorrectAnswerClick(_TestCorrectAnswerBase):
@@ -106,30 +118,26 @@ class TestCorrectAnswerClick(_TestCorrectAnswerBase):
         self.driver = webdriver.Firefox()
         self._test_with_driver()
 
-    def _enter_correct_answer(self):
-        elem = self.driver.find_element_by_id('user-entry-text')
-        elem.send_keys('some')
-
-        elem = self.driver.find_element_by_id('user-entry-button')
-        elem.click()
+    def answer_correctly(self):
+        self.answer_with_click('some')
 
 
 class _TestIncorrectAnswerBase(_TestBase):
 
     def _test_with_page(self):
-        self._enter_incorrect_answer()
+        self.answer_incorrectly()
 
         self.assert_progress_text_equals('Progress: 0 / 19')
         self.assert_feedback_text_has('incorrect')
         self.assert_inputtext_is_focused()
 
-        self._enter_incorrect_answer()
+        self.answer_incorrectly()
 
         self.assert_progress_text_equals('Progress: 0 / 19')
         self.assert_feedback_text_equals('The answer is: some')
         self.assert_inputtext_is_focused()
 
-        self._enter_correct_answer()
+        self.answer_correctly()
 
         self.assert_progress_text_equals('Progress: 1 / 19')
         self.assert_feedback_text_has('correct')
@@ -153,17 +161,11 @@ class TestIncorrectAnswerReturn(_TestIncorrectAnswerBase):
         self.driver = webdriver.Firefox()
         self._test_with_driver()
 
-    def _enter_incorrect_answer(self):
-        elem = self.driver.find_element_by_id('user-entry-text')
-        elem.clear()
-        elem.send_keys('sum')
-        elem.send_keys(Keys.RETURN)
+    def answer_incorrectly(self):
+        self.answer_with_return('sum')
 
-    def _enter_correct_answer(self):
-        elem = self.driver.find_element_by_id('user-entry-text')
-        elem.clear()
-        elem.send_keys('some')
-        elem.send_keys(Keys.RETURN)
+    def answer_correctly(self):
+        self.answer_with_return('some')
 
 
 class TestIncorrectAnswerClick(_TestIncorrectAnswerBase):
@@ -180,21 +182,11 @@ class TestIncorrectAnswerClick(_TestIncorrectAnswerBase):
         self.driver = webdriver.Firefox()
         self._test_with_driver()
 
-    def _enter_incorrect_answer(self):
-        elem = self.driver.find_element_by_id('user-entry-text')
-        elem.clear()
-        elem.send_keys('sum')
+    def answer_incorrectly(self):
+        self.answer_with_click('sum')
 
-        elem = self.driver.find_element_by_id('user-entry-button')
-        elem.click()
-
-    def _enter_correct_answer(self):
-        elem = self.driver.find_element_by_id('user-entry-text')
-        elem.clear()
-        elem.send_keys('some')
-
-        elem = self.driver.find_element_by_id('user-entry-button')
-        elem.click()
+    def answer_correctly(self):
+        self.answer_with_click('some')
 
 
 if __name__ == '__main__':
