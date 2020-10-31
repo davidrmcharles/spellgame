@@ -2,12 +2,9 @@
 
 
 window.onload = function() {
-    _controls.init();
-    _feedback.init();
     _challenge.init();
-    _challenge.presentFirstWord();
-    _controls.focus();
-    _feedback.displayHint();
+    _feedback.init();
+    _controls.init();
 }
 
 
@@ -30,11 +27,12 @@ _controls = {
         this._inputTextElem = document.getElementById('user-entry-text');
         this._inputButtonElem = document.getElementById('user-entry-button');
         this._makeEnterKeyWorkLikeEnterButton();
+        this._focus();
     },
 
     handleHearIt: function() {
         _challenge.playAudio();
-        this.focus();
+        this._focus();
     },
 
     handleEntry: function() {
@@ -46,13 +44,13 @@ _controls = {
         }
     },
 
-    focus: function() {
-        this._inputTextElem.focus();
-    },
-
     hide: function() {
         var elem = document.getElementById('user-entry-box');
         elem.hidden = true;
+    },
+
+    _focus: function() {
+        this._inputTextElem.focus();
     },
 
     _handleCorrectEntry: function() {
@@ -62,7 +60,7 @@ _controls = {
             _feedback.setPersistentText('YOU WIN!');
             _challenge.playVictoryAudio();
         } else {
-            _controls.focus();
+            _controls._focus();
             _feedback.setFadingText('That\'s correct!');
         }
     },
@@ -103,14 +101,7 @@ _feedback = {
 
     init: function() {
         this._elem = document.getElementById('feedback');
-    },
-
-    displayHint: function() {
-        var hint = _challenge.word().hint
-        if (hint == null) {
-            hint = '(Hints appear here)';
-        }
-        this._elem.textContent = hint;
+        this._displayHint();
     },
 
     setFadingText: function(text) {
@@ -121,6 +112,14 @@ _feedback = {
     setPersistentText: function(text) {
         this._stopFade();
         this._elem.textContent = text;
+    },
+
+    _displayHint: function() {
+        var hint = _challenge.word().hint
+        if (hint == null) {
+            hint = '(Hints appear here)';
+        }
+        this._elem.textContent = hint;
     },
 
     _startFade: function() {
@@ -138,7 +137,7 @@ _feedback = {
         if (this._delayCounter > 0) {
             --this._delayCounter;
         } else if (this._elem.style.opacity == 0.0) {
-            this.displayHint();
+            this._displayHint();
             this._stopFade();
         } else {
             this._elem.style.opacity -= 0.1;
@@ -163,14 +162,7 @@ _challenge = {
     init: function() {
         this._audioElem = document.getElementById('challenge-word');
         this._sourceElem = document.getElementById('challenge-word-source');
-    },
-
-    presentFirstWord: function() {
-        this._wordIndex = 0;
-        this._mistakeCount = 0;
-        this._shuffleWords();
-        this._updateProgressIndicator();
-        this._updateAudio();
+        this._presentFirstWord();
     },
 
     presentNextWord: function() {
@@ -205,6 +197,14 @@ _challenge = {
 
     mistakeCount: function() {
         return this._mistakeCount;
+    },
+
+    _presentFirstWord: function() {
+        this._wordIndex = 0;
+        this._mistakeCount = 0;
+        this._shuffleWords();
+        this._updateProgressIndicator();
+        this._updateAudio();
     },
 
     _updateProgressIndicator: function() {
