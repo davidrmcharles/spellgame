@@ -67,6 +67,7 @@ _controls = {
 
     _handleIncorrectEntry: function() {
         _challenge.addMistake();
+        _controls._focus();
         if (_challenge.mistakeCount() < 2) {
             _feedback.setFadingText('Sorry, that\'s incorrect.  Try again.');
         } else {

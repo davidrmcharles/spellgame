@@ -144,5 +144,38 @@ class TestIncorrectAnswerReturn(_TestBase):
         elem.send_keys(Keys.RETURN)
 
 
+class TestIncorrectAnswerClick(_TestBase):
+    '''
+    Test the response to an incorrect answer with a click of the
+    'Enter' button.
+    '''
+
+    def test_chrome(self):
+        self.driver = webdriver.Chrome()
+        self._test_with_driver()
+
+    def test_firefox(self):
+        self.driver = webdriver.Firefox()
+        self._test_with_driver()
+
+    def _test_with_page(self):
+        self._enter_incorrect_answer()
+
+        self.assert_progress_text_equals('Progress: 0 / 19')
+        self.assert_feedback_text_has('incorrect')
+        self.assert_inputtext_is_focused()
+
+        self._enter_incorrect_answer()
+
+        self.assert_feedback_text_equals('The answer is: some')
+
+    def _enter_incorrect_answer(self):
+        elem = self.driver.find_element_by_id('user-entry-text')
+        elem.send_keys('sum')
+
+        elem = self.driver.find_element_by_id('user-entry-button')
+        elem.click()
+
+
 if __name__ == '__main__':
     unittest.main()
