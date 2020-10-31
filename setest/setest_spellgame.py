@@ -114,7 +114,23 @@ class TestCorrectAnswerClick(_TestCorrectAnswerBase):
         elem.click()
 
 
-class TestIncorrectAnswerReturn(_TestBase):
+class _TestIncorrectAnswerBase(_TestBase):
+
+    def _test_with_page(self):
+        self._enter_incorrect_answer()
+
+        self.assert_progress_text_equals('Progress: 0 / 19')
+        self.assert_feedback_text_has('incorrect')
+        self.assert_inputtext_is_focused()
+
+        self._enter_incorrect_answer()
+
+        self.assert_progress_text_equals('Progress: 0 / 19')
+        self.assert_feedback_text_equals('The answer is: some')
+        self.assert_inputtext_is_focused()
+
+
+class TestIncorrectAnswerReturn(_TestIncorrectAnswerBase):
     '''
     Test the response to an incorrect answer with the RETURN key.
     '''
@@ -127,24 +143,13 @@ class TestIncorrectAnswerReturn(_TestBase):
         self.driver = webdriver.Firefox()
         self._test_with_driver()
 
-    def _test_with_page(self):
-        self._enter_incorrect_answer()
-
-        self.assert_progress_text_equals('Progress: 0 / 19')
-        self.assert_feedback_text_has('incorrect')
-        self.assert_inputtext_is_focused()
-
-        self._enter_incorrect_answer()
-
-        self.assert_feedback_text_equals('The answer is: some')
-
     def _enter_incorrect_answer(self):
         elem = self.driver.find_element_by_id('user-entry-text')
         elem.send_keys('sum')
         elem.send_keys(Keys.RETURN)
 
 
-class TestIncorrectAnswerClick(_TestBase):
+class TestIncorrectAnswerClick(_TestIncorrectAnswerBase):
     '''
     Test the response to an incorrect answer with a click of the
     'Enter' button.
@@ -157,17 +162,6 @@ class TestIncorrectAnswerClick(_TestBase):
     def test_firefox(self):
         self.driver = webdriver.Firefox()
         self._test_with_driver()
-
-    def _test_with_page(self):
-        self._enter_incorrect_answer()
-
-        self.assert_progress_text_equals('Progress: 0 / 19')
-        self.assert_feedback_text_has('incorrect')
-        self.assert_inputtext_is_focused()
-
-        self._enter_incorrect_answer()
-
-        self.assert_feedback_text_equals('The answer is: some')
 
     def _enter_incorrect_answer(self):
         elem = self.driver.find_element_by_id('user-entry-text')
