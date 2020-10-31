@@ -4,6 +4,7 @@
 window.onload = function() {
     _userEntry.init();
     _feedback.init();
+    _challenge.init();
     _challenge.presentFirstWord();
 }
 
@@ -30,8 +31,7 @@ _userEntry = {
     },
 
     handleHearIt: function() {
-        var elem = document.getElementById('challenge-word');
-        elem.play();
+        _challenge.playAudio();
         this.focus();
     },
 
@@ -92,6 +92,11 @@ _userEntry = {
 
 _challenge = {
 
+    init: function() {
+        this._audioElem = document.getElementById('challenge-word');
+        this._sourceElem = document.getElementById('challenge-word-source');
+    },
+
     presentFirstWord: function() {
         this._wordIndex = 0;
         this._mistakeCount = 0;
@@ -112,21 +117,19 @@ _challenge = {
         } else {
             _feedback.setFadingText('That\'s correct!');
             this._updateAudio();
-
             _userEntry.focus();
         }
+    },
+
+    playAudio: function() {
+        this._audioElem.play();
     },
 
     _presentVictory: function() {
         _userEntry.hide();
         _feedback.setPersistentText('YOU WIN!');
-
-        var elem = document.getElementById('challenge-word-source');
-        elem.src = 'audio/yay.mp3';
-
-        var elem = document.getElementById('challenge-word');
-        elem.load();
-        elem.play();
+        this._loadAudio('audio/yay.mp3');
+        this.playAudio();
     },
 
     _updateProgressIndicator: function() {
@@ -137,13 +140,13 @@ _challenge = {
     _updateAudio: function() {
         var audioToken = this._words[this._wordIndex].word;
         audioToken = audioToken.replace("'", '').toLowerCase();
+        this._loadAudio(`audio/sight-words/${audioToken}.m4a`);
+        this.playAudio();
+    },
 
-        var elem = document.getElementById('challenge-word-source');
-        elem.src = 'audio/sight-words/' + audioToken + '.m4a';
-
-        var elem = document.getElementById('challenge-word');
-        elem.load();
-        elem.play();
+    _loadAudio: function(file) {
+        this._sourceElem.src = file;
+        this._audioElem.load();
     },
 
     _shuffleWords: function() {
@@ -154,6 +157,8 @@ _challenge = {
         }
     },
 
+    _audioElem: null,
+    _sourceElem: null,
     _wordIndex: 0,
     _words: [
         {'word': 'some', 'hint': 'Meaning "a few"'},
