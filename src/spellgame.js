@@ -6,6 +6,7 @@ window.onload = function() {
     _feedback.init();
     _challenge.init();
     _challenge.presentFirstWord();
+    _controls.focus();
 }
 
 
@@ -55,7 +56,13 @@ _controls = {
 
     _handleCorrectEntry: function() {
         this._clear();
-        _challenge.presentNextWord();
+        if (_challenge.presentNextWord()) {
+            _controls.focus();
+        } else {
+            _controls.hide();
+            _feedback.setPersistentText('YOU WIN!');
+            _challenge.playVictoryAudio();
+        }
     },
 
     _handleIncorrectEntry: function() {
@@ -104,7 +111,6 @@ _challenge = {
         this._updateProgressIndicator();
         _feedback.displayHint();
         this._updateAudio();
-        _controls.focus();
     },
 
     presentNextWord: function() {
@@ -113,11 +119,11 @@ _challenge = {
         this._updateProgressIndicator();
 
         if (this._wordIndex == this._words.length) {
-            this._presentVictory();
+            return false;
         } else {
             _feedback.setFadingText('That\'s correct!');
             this._updateAudio();
-            _controls.focus();
+            return true;
         }
     },
 
@@ -129,9 +135,7 @@ _challenge = {
         this._audioElem.play();
     },
 
-    _presentVictory: function() {
-        _controls.hide();
-        _feedback.setPersistentText('YOU WIN!');
+    playVictoryAudio: function() {
         this._loadAudio('audio/yay.mp3');
         this.playAudio();
     },
