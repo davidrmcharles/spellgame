@@ -85,5 +85,38 @@ class TestCorrectAnswerReturn(_TestBase):
         elem.send_keys(Keys.RETURN)
 
 
+class TestCorrectAnswerClick(_TestBase):
+    '''
+    Test the response to a correct answer with a click of the 'Enter'
+    button.
+    '''
+
+    def test_chrome(self):
+        self.driver = webdriver.Chrome()
+        self._test_with_driver()
+
+    def test_firefox(self):
+        self.driver = webdriver.Firefox()
+        self._test_with_driver()
+
+    def _test_with_page(self):
+        self._enter_correct_answer()
+
+        self.assert_progress_text_equals('Progress: 1 / 19')
+        self.assert_feedback_text_has('correct')
+        self.assert_inputtext_is_focused()
+
+        time.sleep(2)
+
+        self.assert_feedback_text_has('here')
+
+    def _enter_correct_answer(self):
+        elem = self.driver.find_element_by_id('user-entry-text')
+        elem.send_keys('some')
+
+        elem = self.driver.find_element_by_id('user-entry-button')
+        elem.click()
+
+
 if __name__ == '__main__':
     unittest.main()
