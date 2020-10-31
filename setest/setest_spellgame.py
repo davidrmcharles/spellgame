@@ -23,6 +23,18 @@ class _TestBase(unittest.TestCase):
         finally:
             self.driver.close()
 
+    def assert_progress_text_equals(self, text):
+        elem = self.driver.find_element_by_id('progress')
+        self.assertEqual(text, elem.text)
+
+    def assert_feedback_text_has(self, text):
+        elem = self.driver.find_element_by_id('feedback')
+        self.assertIn(text, elem.text)
+
+    def assert_inputtext_is_focused(self):
+        elem = self.driver.find_element_by_id('user-entry-text')
+        self.assertEqual(self.driver.switch_to.active_element, elem)
+
 
 class TestInit(_TestBase):
     '''
@@ -38,26 +50,14 @@ class TestInit(_TestBase):
         self._test_with_driver()
 
     def _test_with_page(self):
-        self._test_progress_has_text()
-        self._test_feedback_has_text()
-        self._test_inputtext_is_focused()
-
-    def _test_progress_has_text(self):
-        elem = self.driver.find_element_by_id('progress')
-        self.assertEqual('Progress: 0 / 19', elem.text)
-
-    def _test_feedback_has_text(self):
-        elem = self.driver.find_element_by_id('feedback')
-        self.assertIn('few', elem.text)
-
-    def _test_inputtext_is_focused(self):
-        elem = self.driver.find_element_by_id('user-entry-text')
-        self.assertEqual(self.driver.switch_to.active_element, elem)
+        self.assert_progress_text_equals('Progress: 0 / 19')
+        self.assert_feedback_text_has('few')
+        self.assert_inputtext_is_focused()
 
 
-class TestCorrectEntryReturn(_TestBase):
+class TestCorrectAnswerReturn(_TestBase):
     '''
-    Test the response to a correct entry with the RETURN key.
+    Test the response to a correct answer with the RETURN key.
     '''
 
     def test_chrome(self):
@@ -69,30 +69,20 @@ class TestCorrectEntryReturn(_TestBase):
         self._test_with_driver()
 
     def _test_with_page(self):
+        self._enter_correct_answer()
+
+        self.assert_progress_text_equals('Progress: 1 / 19')
+        self.assert_feedback_text_has('correct')
+        self.assert_inputtext_is_focused()
+
+        time.sleep(2)
+
+        self.assert_feedback_text_has('here')
+
+    def _enter_correct_answer(self):
         elem = self.driver.find_element_by_id('user-entry-text')
         elem.send_keys('some')
         elem.send_keys(Keys.RETURN)
-        self._test_progress_has_text()
-        self._test_feedback_has_text()
-        self._test_inputtext_is_focused()
-        time.sleep(2)
-        self._test_feedback_has_text_2()
-
-    def _test_progress_has_text(self):
-        elem = self.driver.find_element_by_id('progress')
-        self.assertEqual('Progress: 1 / 19', elem.text)
-
-    def _test_feedback_has_text(self):
-        elem = self.driver.find_element_by_id('feedback')
-        self.assertIn('correct', elem.text)
-
-    def _test_inputtext_is_focused(self):
-        elem = self.driver.find_element_by_id('user-entry-text')
-        self.assertEqual(self.driver.switch_to.active_element, elem)
-
-    def _test_feedback_has_text_2(self):
-        elem = self.driver.find_element_by_id('feedback')
-        self.assertIn('here', elem.text)
 
 
 if __name__ == '__main__':
