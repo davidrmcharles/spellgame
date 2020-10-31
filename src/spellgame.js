@@ -2,7 +2,7 @@
 
 
 window.onload = function() {
-    _userEntry.init();
+    _controls.init();
     _feedback.init();
     _challenge.init();
     _challenge.presentFirstWord();
@@ -10,19 +10,19 @@ window.onload = function() {
 
 
 userPressedHearIt = function() {
-    _userEntry.handleHearIt();
+    _controls.handleHearIt();
 }
 
 
 userPressedEnter = function() {
-    _userEntry.handleEntry();
+    _controls.handleEntry();
 }
 
 
 // Details
 
 
-_userEntry = {
+_controls = {
 
     init: function() {
         this._inputTextElem = document.getElementById('user-entry-text');
@@ -36,7 +36,7 @@ _userEntry = {
     },
 
     handleEntry: function() {
-        var challengeWord = _challenge._words[_challenge._wordIndex].word;
+        var challengeWord = _challenge.word().word;
         if (this._inputTextElem.value.toLowerCase() == challengeWord.toLowerCase()) {
             this._handleCorrectEntry();
         } else {
@@ -64,7 +64,7 @@ _userEntry = {
             _feedback.setFadingText('Sorry, that\'s incorrect.  Try again.');
         } else {
             _feedback.setPersistentText(
-                `The answer is: ${_challenge._words[_challenge._wordIndex].word}`
+                `The answer is: ${_challenge.word().word}`
             );
         }
     },
@@ -104,7 +104,7 @@ _challenge = {
         this._updateProgressIndicator();
         _feedback.displayHint();
         this._updateAudio();
-        _userEntry.focus();
+        _controls.focus();
     },
 
     presentNextWord: function() {
@@ -117,8 +117,12 @@ _challenge = {
         } else {
             _feedback.setFadingText('That\'s correct!');
             this._updateAudio();
-            _userEntry.focus();
+            _controls.focus();
         }
+    },
+
+    word: function() {
+        return this._words[this._wordIndex];
     },
 
     playAudio: function() {
@@ -126,7 +130,7 @@ _challenge = {
     },
 
     _presentVictory: function() {
-        _userEntry.hide();
+        _controls.hide();
         _feedback.setPersistentText('YOU WIN!');
         this._loadAudio('audio/yay.mp3');
         this.playAudio();
@@ -193,7 +197,7 @@ _feedback = {
     },
 
     displayHint: function() {
-        var hint = _challenge._words[_challenge._wordIndex].hint
+        var hint = _challenge.word().hint
         if (hint == null) {
             hint = '(Hints appear here)';
         }
