@@ -39,6 +39,10 @@ class _TestBase(unittest.TestCase):
         elem = self.driver.find_element_by_id('user-entry-text')
         self.assertEqual(self.driver.switch_to.active_element, elem)
 
+    def assert_inputtext_is_not_visible(self):
+        elem = self.driver.find_element_by_id('user-entry-text')
+        self.assertFalse(elem.is_displayed())
+
     def answer_with_return(self, text):
         elem = self.driver.find_element_by_id('user-entry-text')
         elem.clear()
@@ -187,6 +191,62 @@ class TestIncorrectAnswerClick(_TestIncorrectAnswerBase):
 
     def answer_correctly(self):
         self.answer_with_click('some')
+
+
+class _TestWinBase(_TestBase):
+
+    def _test_with_page(self):
+        self.answer_correctly('some')
+        self.answer_correctly('walk')
+        self.answer_correctly('talk')
+        self.answer_correctly('a')
+        self.answer_correctly('you')
+        self.answer_correctly('come')
+        self.answer_correctly('look')
+        self.answer_correctly('want')
+        self.answer_correctly('girl')
+        self.answer_correctly('his')
+        self.answer_correctly('don\'t')
+        self.answer_correctly('said')
+        self.answer_correctly('to')
+        self.answer_correctly('oh')
+        self.answer_correctly('of')
+        self.answer_correctly('I')
+        self.answer_correctly('has')
+        self.answer_correctly('was')
+        self.answer_correctly('do')
+
+        self.assert_progress_text_equals('Progress: 19 / 19')
+        self.assert_feedback_text_equals('YOU WIN!')
+        self.assert_inputtext_is_not_visible()
+
+
+class TestWinReturn(_TestWinBase):
+
+    def test_chrome(self):
+        self.driver = webdriver.Chrome()
+        self._test_with_driver()
+
+    def test_firefox(self):
+        self.driver = webdriver.Firefox()
+        self._test_with_driver()
+
+    def answer_correctly(self, text):
+        self.answer_with_return(text)
+
+
+class TestWinClick(_TestWinBase):
+
+    def test_chrome(self):
+        self.driver = webdriver.Chrome()
+        self._test_with_driver()
+
+    def test_firefox(self):
+        self.driver = webdriver.Firefox()
+        self._test_with_driver()
+
+    def answer_correctly(self, text):
+        self.answer_with_click(text)
 
 
 if __name__ == '__main__':
