@@ -1,10 +1,10 @@
 #!/bin/sh
 
-username=`cat ~/.fideidepositum-username`
+username=`cat ~/.scholadomi.username`
 
-scp spellgame.tar.gz $username@fideidepositum.org:/home/$username/www
+scp spellgame.tar.gz $username@scholadomi.org:/home/$username/www
 
-ssh $username@fideidepositum.org <<EOF
+ssh $username@scholadomi.org <<EOF
 rm -rf www/spellgame
 mkdir www/spellgame
 cd www/spellgame
