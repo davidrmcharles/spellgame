@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>spellgame - Sight Words</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="spellgame.js"></script>
+  </head>
+  <body>
+    <h3>spellgame - Sight Words</h3>
+    <span id="progress"></span>
+    <h3 id="feedback">(Hints appear here)</h3>
+    <div id="user-entry-box">
+      <input type="button" value="Hear It" onclick="userPressedHearIt()"/>
+      <label for="user-entry-text">Spell it:</label>
+      <input type="text" id="user-entry-text" size="16"/>
+      <input type="button" id="user-entry-button" value="Enter" onclick="userPressedEnter()"/>
+    </div>
+    <audio id="challenge-word">
+      <source id="challenge-word-source" type="audio/mpeg"/>
+    </audio>
+  </body>
+</html>
