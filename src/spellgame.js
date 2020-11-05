@@ -161,8 +161,10 @@ _feedback = {
 _challenge = {
 
     init: function() {
-        this._wordsElem = document.getElementById('challenge-word-list');
-        this._words = JSON.parse(this._wordsElem.textContent);
+        this._dataElem = document.getElementById('challenge-word-data');
+        this._data = JSON.parse(this._dataElem.textContent);
+        this._audioPath = this._data['audioPath']
+        this._words = this._data['words']
         this._audioElem = document.getElementById('challenge-word');
         this._sourceElem = document.getElementById('challenge-word-source');
         this._presentFirstWord();
@@ -220,7 +222,7 @@ _challenge = {
     _updateAudio: function() {
         var audioToken = this._words[this._wordIndex].word;
         audioToken = audioToken.replace("'", '').toLowerCase();
-        this._loadAudio(`audio/sight-words/${audioToken}.m4a`);
+        this._loadAudio(`audio/${this._audioPath}/${audioToken}.m4a`);
         this.playAudio();
     },
 
