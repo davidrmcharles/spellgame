@@ -161,6 +161,8 @@ _feedback = {
 _challenge = {
 
     init: function() {
+        this._wordsElem = document.getElementById('challenge-word-list');
+        this._words = JSON.parse(this._wordsElem.textContent);
         this._audioElem = document.getElementById('challenge-word');
         this._sourceElem = document.getElementById('challenge-word-source');
         this._presentFirstWord();
@@ -238,27 +240,7 @@ _challenge = {
     _audioElem: null,
     _sourceElem: null,
     _wordIndex: 0,
-    _words: [
-        {'word': 'some', 'hint': 'Meaning "a few"'},
-        {'word': 'walk', 'hint': null},
-        {'word': 'talk', 'hint': null},
-        {'word': 'a', 'hint': null},
-        {'word': 'you', 'hint': null},
-        {'word': 'come', 'hint': null},
-        {'word': 'look', 'hint': null},
-        {'word': 'want', 'hint': null},
-        {'word': 'girl', 'hint': null},
-        {'word': 'his', 'hint': null},
-        {'word': 'don\'t', 'hint': null},
-        {'word': 'said', 'hint': null},
-        {'word': 'to', 'hint': 'Meaning a "direction"'},
-        {'word': 'oh', 'hint': 'An expression of surprise'},
-        {'word': 'of', 'hint': null},
-        {'word': 'I', 'hint': 'Not the "eye" that sees'},
-        {'word': 'has', 'hint': null},
-        {'word': 'was', 'hint': null},
-        {'word': 'do', 'hint': 'Meaning "act"'},
-    ],
+    _words: null,
     _mistakeCount: 0,
 
 }
