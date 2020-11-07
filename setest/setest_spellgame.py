@@ -14,11 +14,16 @@ _project_folder = os.path.dirname(_setest_folder)
 
 class _TestBase(unittest.TestCase):
 
+    @property
+    def url(self):
+        spellgame_url = os.environ.get('SPELLGAME_URL')
+        if spellgame_url is not None:
+            return spellgame_url
+        return  f'file:///{_project_folder}/build/sight-words-01.html'
+
     def _test_with_driver(self):
         try:
-            self.driver.get(
-                f'file:///{_project_folder}/build/sight-words-01.html?istest=true'
-            )
+            self.driver.get(f'{self.url}?istest=true')
             self._test_with_page()
         finally:
             self.driver.close()
