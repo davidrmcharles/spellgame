@@ -69,5 +69,6 @@ def _derive_html_path(wordset_path):
     head, tail = os.path.splitext(basename)
     return f'{head}.html'
 
+
 if __name__ == '__main__':
     main()
