@@ -17,7 +17,7 @@ class _TestBase(unittest.TestCase):
     def _test_with_driver(self):
         try:
             self.driver.get(
-                f'file:///{_project_folder}/build/sight-words.html?istest=true'
+                f'file:///{_project_folder}/build/sight-words-01.html?istest=true'
             )
             self._test_with_page()
         finally:
