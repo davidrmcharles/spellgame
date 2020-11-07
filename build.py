@@ -43,7 +43,7 @@ def _create_template():
 
 def _get_wordset_paths():
     return [
-        'sight-words/wordset.json',
+        'sight-words/01/wordset.json',
         'frmost/01/wordset.json',
     ]
 
