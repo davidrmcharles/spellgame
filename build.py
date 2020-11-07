@@ -11,7 +11,11 @@ def main():
     _clean()
     shutil.copyfile('src/index.html', 'build/index.html')
     shutil.copyfile('src/spellgame.js', 'build/spellgame.js')
-    shutil.copytree('src/audio', 'build/audio')
+    shutil.copytree(
+        'src/audio',
+        'build/audio',
+        ignore=_ignore_emacs_temporary_files
+    )
     template = _create_template()
     for wordset_path in _get_wordset_paths():
         _render_html(template, wordset_path)
@@ -21,6 +25,14 @@ def _clean():
     if os.path.exists('build'):
         shutil.rmtree('build')
     os.mkdir('build')
+
+
+def _ignore_emacs_temporary_files(folder_path, file_names):
+    return [
+        name
+        for name in file_names
+        if name.endswith('~')
+    ]
 
 
 def _create_template():
