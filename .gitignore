@@ -2,3 +2,4 @@
 spellgame.tar.gz
 venv/
 geckodriver.log
+build/

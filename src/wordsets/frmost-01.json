@@ -1,0 +1,29 @@
+{
+    "title": "Lectio Prima",
+    "audioPath": "frmost/01",
+    "words": [
+        {"word": "ad", "hint": null},
+        {"word": "agnus", "hint": null},
+        {"word": "cum", "hint": null},
+        {"word": "dedit", "hint": null},
+        {"word": "dixit", "hint": null},
+        {"word": "ergo", "hint": null},
+        {"word": "fuit", "hint": null},
+        {"word": "habuit", "hint": null},
+        {"word": "in", "hint": null},
+        {"word": "invenit", "hint": null},
+        {"word": "mundus", "hint": null},
+        {"word": "nauta", "hint": null},
+        {"word": "navis", "hint": null},
+        {"word": "non", "hint": null},
+        {"word": "parva", "hint": null},
+        {"word": "parvus", "hint": null},
+        {"word": "pecunia", "hint": null},
+        {"word": "planus", "hint": null},
+        {"word": "puella", "hint": null},
+        {"word": "regina", "hint": null},
+        {"word": "rotundus", "hint": null},
+        {"word": "sed", "hint": null},
+        {"word": "vidit", "hint": null}
+    ]
+}

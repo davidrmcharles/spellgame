@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>spellgame - {{ wordset_title }}</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="spellgame.js"></script>
+  </head>
+  <body>
+    <h3>spellgame - {{ wordset_title }}</h3>
+    <span id="progress"></span>
+    <h3 id="feedback">(Hints appear here)</h3>
+    <div id="user-entry-box">
+      <input type="button" value="Hear It" onclick="userPressedHearIt()"/>
+      <label for="user-entry-text">Spell it:</label>
+      <input type="text" id="user-entry-text" size="16"/>
+      <input type="button" id="user-entry-button" value="Enter" onclick="userPressedEnter()"/>
+    </div>
+    <audio id="challenge-word">
+      <source id="challenge-word-source" type="audio/mpeg"/>
+    </audio>
+    <pre id="challenge-word-data" hidden>
+{{ wordset_json }}
+    </pre>
+  </body>
+</html>

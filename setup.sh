@@ -1,7 +1,6 @@
 #!/bin/sh
 
-rm -rf venv
-python -m venv venv
+python -m venv --clear venv
 . venv/bin/activate
 python -m pip install --upgrade pip
-pip install selenium
+pip install -r requirements.txt
