@@ -1,6 +1,5 @@
 {
     "title": "Sight Words",
-    "htmlPath": "sight-words-01.html",
     "audioPath": "sight-words/01",
     "words": [
         {"word": "some", "hint": "Meaning \"a few\""},

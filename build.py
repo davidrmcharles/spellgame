@@ -54,7 +54,7 @@ def _render_html(template, wordset_path):
 
     wordset_json = json.dumps(wordset_doc, indent=4)
     wordset_title = wordset_doc['title']
-    html_path = wordset_doc['htmlPath']
+    html_path = _derive_html_path(wordset_path)
 
     with open(f'build/{html_path}', 'w') as html_file:
         html_file.write(
@@ -63,6 +63,11 @@ def _render_html(template, wordset_path):
                 wordset_json=wordset_json
             )
         )
+
+def _derive_html_path(wordset_path):
+    basename = os.path.basename(wordset_path)
+    head, tail = os.path.splitext(basename)
+    return f'{head}.html'
 
 if __name__ == '__main__':
     main()
