@@ -9,6 +9,9 @@ from jinja2 import Template
 
 def main():
     _clean()
+    shutil.copyfile('src/index.html', 'build/index.html')
+    shutil.copyfile('src/spellgame.js', 'build/spellgame.js')
+    shutil.copytree('src/audio', 'build/audio')
     template = _create_template()
     for wordset_path in _get_wordset_paths():
         _render_html(template, wordset_path)
