@@ -43,13 +43,13 @@ def _create_template():
 
 def _get_wordset_paths():
     return [
-        'sight-words/01/wordset.json',
-        'frmost/01/wordset.json',
+        'src/wordsets/sight-words-01.json',
+        'src/wordsets/frmost-01.json',
     ]
 
 
 def _render_html(template, wordset_path):
-    with open(f'src/audio/{wordset_path}', 'r') as wordset_file:
+    with open(wordset_path, 'r') as wordset_file:
         wordset_doc = json.load(wordset_file)
 
     wordset_json = json.dumps(wordset_doc, indent=4)
