@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import glob
 import json
 import os
 import shutil
@@ -42,10 +43,7 @@ def _create_template():
 
 
 def _get_wordset_paths():
-    return [
-        'src/wordsets/sight-words-01.json',
-        'src/wordsets/frmost-01.json',
-    ]
+    return glob.glob('src/wordsets/*.json')
 
 
 def _render_html(template, wordset_path):
