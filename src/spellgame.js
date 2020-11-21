@@ -74,6 +74,7 @@ _controls = {
             _feedback.setPersistentText(
                 `The answer is: ${_challenge.word().word}`
             );
+            _challenge.addReviewWordMaybe();
         }
     },
 
@@ -173,18 +174,32 @@ _challenge = {
     presentNextWord: function() {
         ++this._wordIndex;
         this._mistakeCount = 0;
-        this._updateProgressIndicator();
 
-        if (this._wordIndex == this._allWords.length) {
-            return false;
-        } else {
-            this._updateAudio();
-            return true;
+        if (this._wordIndex == this._words().length) {
+            if (!this._reviewing && this._reviewWords.length > 0) {
+                this._reviewing = true;
+                this._wordIndex = 0;
+            } else {
+                this._updateProgressIndicators();
+                return false;
+            }
         }
+
+        this._updateProgressIndicators();
+        this._updateAudio();
+        return true;
     },
 
     word: function() {
-        return this._allWords[this._wordIndex];
+        return this._words()[this._wordIndex];
+    },
+
+    _words: function() {
+        if (!this._reviewing) {
+            return this._allWords;
+        } else {
+            return this._reviewWords;
+        }
     },
 
     playAudio: function() {
@@ -204,23 +219,56 @@ _challenge = {
         return this._mistakeCount;
     },
 
+    addReviewWordMaybe: function() {
+        if (this._reviewing) {
+            return;
+        }
+
+        if (this.word() == this._reviewWords[this._reviewWords.length - 1]) {
+            return;
+        }
+
+        this._reviewWords.push(this.word());
+    },
+
     _presentFirstWord: function() {
         this._wordIndex = 0;
         this._mistakeCount = 0;
         if (!_is_test()) {
             this._shuffleWords();
         }
-        this._updateProgressIndicator();
+        this._updateProgressIndicators();
         this._updateAudio();
     },
 
-    _updateProgressIndicator: function() {
+    _updateProgressIndicators: function() {
+        if (!this._reviewing) {
+            this._updateMainProgressIndicator(
+                this._wordIndex, this._allWords.length);
+            if (this._reviewWords.length > 0) {
+                this._updateReviewProgressIndicator(
+                    0, this._reviewWords.length);
+            }
+        } else {
+            this._updateMainProgressIndicator(
+                this._allWords.length, this._allWords.length);
+            this._updateReviewProgressIndicator(
+                this._wordIndex, this._reviewWords.length);
+        }
+    },
+
+    _updateMainProgressIndicator: function(index, count) {
         var elem = document.getElementById('progress');
-        elem.textContent = `Progress: ${this._wordIndex} / ${this._allWords.length}`;
+        elem.textContent = `Progress: ${index} / ${count}`;
+    },
+
+    _updateReviewProgressIndicator: function(index, count) {
+        var elem = document.getElementById('review-progress');
+        elem.textContent = `Review: ${index} / ${count}`;
     },
 
     _updateAudio: function() {
-        var audioToken = this._allWords[this._wordIndex].word;
+        var audioToken = this.word().word;
         audioToken = audioToken.replace("'", '').toLowerCase();
         this._loadAudio(`audio/${this._audioPath}/${audioToken}.m4a`);
         this.playAudio();
@@ -245,6 +293,7 @@ _challenge = {
     _allWords: null,
     _reviewWords: [],
     _mistakeCount: 0,
+    _reviewing: false,
 
 }
 
