@@ -164,7 +164,7 @@ _challenge = {
         this._dataElem = document.getElementById('challenge-word-data');
         this._data = JSON.parse(this._dataElem.textContent);
         this._audioPath = this._data['audioPath']
-        this._words = this._data['words']
+        this._allWords = this._data['words']
         this._audioElem = document.getElementById('challenge-word');
         this._sourceElem = document.getElementById('challenge-word-source');
         this._presentFirstWord();
@@ -175,7 +175,7 @@ _challenge = {
         this._mistakeCount = 0;
         this._updateProgressIndicator();
 
-        if (this._wordIndex == this._words.length) {
+        if (this._wordIndex == this._allWords.length) {
             return false;
         } else {
             this._updateAudio();
@@ -184,7 +184,7 @@ _challenge = {
     },
 
     word: function() {
-        return this._words[this._wordIndex];
+        return this._allWords[this._wordIndex];
     },
 
     playAudio: function() {
@@ -216,11 +216,11 @@ _challenge = {
 
     _updateProgressIndicator: function() {
         var elem = document.getElementById('progress');
-        elem.textContent = `Progress: ${this._wordIndex} / ${this._words.length}`;
+        elem.textContent = `Progress: ${this._wordIndex} / ${this._allWords.length}`;
     },
 
     _updateAudio: function() {
-        var audioToken = this._words[this._wordIndex].word;
+        var audioToken = this._allWords[this._wordIndex].word;
         audioToken = audioToken.replace("'", '').toLowerCase();
         this._loadAudio(`audio/${this._audioPath}/${audioToken}.m4a`);
         this.playAudio();
@@ -232,17 +232,18 @@ _challenge = {
     },
 
     _shuffleWords: function() {
-        for (var i = this._words.length - 1; i > 0; i--) {
+        for (var i = this._allWords.length - 1; i > 0; i--) {
             var rand = Math.floor(Math.random() * (i + 1));
-            [this._words[i], this._words[rand]] =
-                [this._words[rand], this._words[i]];
+            [this._allWords[i], this._allWords[rand]] =
+                [this._allWords[rand], this._allWords[i]];
         }
     },
 
     _audioElem: null,
     _sourceElem: null,
     _wordIndex: 0,
-    _words: null,
+    _allWords: null,
+    _reviewWords: [],
     _mistakeCount: 0,
 
 }
