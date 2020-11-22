@@ -2,7 +2,7 @@
 
 
 window.onload = function() {
-    _challenge.init();
+    _game.init();
     _feedback.init();
     _controls.init();
 }
@@ -31,12 +31,12 @@ _controls = {
     },
 
     handleHearIt: function() {
-        _challenge.playAudio();
+        _game.playAudio();
         this._focus();
     },
 
     handleEntry: function() {
-        var challengeWord = _challenge.word().word;
+        var challengeWord = _game.word().word;
         if (this._inputTextElem.value.toLowerCase() == challengeWord.toLowerCase()) {
             this._handleCorrectEntry();
         } else {
@@ -55,10 +55,10 @@ _controls = {
 
     _handleCorrectEntry: function() {
         this._clear();
-        if (!_challenge.presentNextWord()) {
+        if (!_game.presentNextWord()) {
             _controls.hide();
             _feedback.setPersistentText('YOU WIN!');
-            _challenge.playVictoryAudio();
+            _game.playVictoryAudio();
         } else {
             _controls._focus();
             _feedback.setFadingText('That\'s correct!');
@@ -66,14 +66,15 @@ _controls = {
     },
 
     _handleIncorrectEntry: function() {
-        _challenge.addMistake();
+        _game.addMistake();
         _controls._focus();
-        if (_challenge.mistakeCount() < 2) {
+        if (_game.mistakeCount() < 2) {
             _feedback.setFadingText('Sorry, that\'s incorrect.  Try again.');
         } else {
             _feedback.setPersistentText(
-                `The answer is: ${_challenge.word().word}`
+                `The answer is: ${_game.word().word}`
             );
+            _game.addReviewWordMaybe();
         }
     },
 
@@ -116,7 +117,7 @@ _feedback = {
     },
 
     _displayHint: function() {
-        var hint = _challenge.word().hint
+        var hint = _game.word().hint
         if (hint == null) {
             hint = '(Hints appear here)';
         }
@@ -158,13 +159,13 @@ _feedback = {
 }
 
 
-_challenge = {
+_game = {
 
     init: function() {
         this._dataElem = document.getElementById('challenge-word-data');
         this._data = JSON.parse(this._dataElem.textContent);
         this._audioPath = this._data['audioPath']
-        this._words = this._data['words']
+        this._allWords = this._data['words']
         this._audioElem = document.getElementById('challenge-word');
         this._sourceElem = document.getElementById('challenge-word-source');
         this._presentFirstWord();
@@ -173,18 +174,32 @@ _challenge = {
     presentNextWord: function() {
         ++this._wordIndex;
         this._mistakeCount = 0;
-        this._updateProgressIndicator();
 
-        if (this._wordIndex == this._words.length) {
-            return false;
-        } else {
-            this._updateAudio();
-            return true;
+        if (this._wordIndex == this._words().length) {
+            if (!this._reviewing && this._reviewWords.length > 0) {
+                this._reviewing = true;
+                this._wordIndex = 0;
+            } else {
+                this._updateProgressIndicators();
+                return false;
+            }
         }
+
+        this._updateProgressIndicators();
+        this._updateAudio();
+        return true;
     },
 
     word: function() {
-        return this._words[this._wordIndex];
+        return this._words()[this._wordIndex];
+    },
+
+    _words: function() {
+        if (!this._reviewing) {
+            return this._allWords;
+        } else {
+            return this._reviewWords;
+        }
     },
 
     playAudio: function() {
@@ -204,23 +219,56 @@ _challenge = {
         return this._mistakeCount;
     },
 
+    addReviewWordMaybe: function() {
+        if (this._reviewing) {
+            return;
+        }
+
+        if (this.word() == this._reviewWords[this._reviewWords.length - 1]) {
+            return;
+        }
+
+        this._reviewWords.push(this.word());
+    },
+
     _presentFirstWord: function() {
         this._wordIndex = 0;
         this._mistakeCount = 0;
         if (!_is_test()) {
             this._shuffleWords();
         }
-        this._updateProgressIndicator();
+        this._updateProgressIndicators();
         this._updateAudio();
     },
 
-    _updateProgressIndicator: function() {
+    _updateProgressIndicators: function() {
+        if (!this._reviewing) {
+            this._updateMainProgressIndicator(
+                this._wordIndex, this._allWords.length);
+            if (this._reviewWords.length > 0) {
+                this._updateReviewProgressIndicator(
+                    0, this._reviewWords.length);
+            }
+        } else {
+            this._updateMainProgressIndicator(
+                this._allWords.length, this._allWords.length);
+            this._updateReviewProgressIndicator(
+                this._wordIndex, this._reviewWords.length);
+        }
+    },
+
+    _updateMainProgressIndicator: function(index, count) {
         var elem = document.getElementById('progress');
-        elem.textContent = `Progress: ${this._wordIndex} / ${this._words.length}`;
+        elem.textContent = `Progress: ${index} / ${count}`;
+    },
+
+    _updateReviewProgressIndicator: function(index, count) {
+        var elem = document.getElementById('review-progress');
+        elem.textContent = `Review: ${index} / ${count}`;
     },
 
     _updateAudio: function() {
-        var audioToken = this._words[this._wordIndex].word;
+        var audioToken = this.word().word;
         audioToken = audioToken.replace("'", '').toLowerCase();
         this._loadAudio(`audio/${this._audioPath}/${audioToken}.m4a`);
         this.playAudio();
@@ -232,18 +280,20 @@ _challenge = {
     },
 
     _shuffleWords: function() {
-        for (var i = this._words.length - 1; i > 0; i--) {
+        for (var i = this._allWords.length - 1; i > 0; i--) {
             var rand = Math.floor(Math.random() * (i + 1));
-            [this._words[i], this._words[rand]] =
-                [this._words[rand], this._words[i]];
+            [this._allWords[i], this._allWords[rand]] =
+                [this._allWords[rand], this._allWords[i]];
         }
     },
 
     _audioElem: null,
     _sourceElem: null,
     _wordIndex: 0,
-    _words: null,
+    _allWords: null,
+    _reviewWords: [],
     _mistakeCount: 0,
+    _reviewing: false,
 
 }
 
