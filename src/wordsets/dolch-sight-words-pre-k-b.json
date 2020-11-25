@@ -1,0 +1,26 @@
+{
+    "title": "Dolch Sight Words, Pre-K (B)",
+    "audioPath": "dolch-sight-words/pre-k-b",
+    "words": [
+        {"word": "look", "hint": null},
+        {"word": "make", "hint": null},
+        {"word": "me", "hint": null},
+        {"word": "my", "hint": null},
+        {"word": "not", "hint": "Nothing to do with string"},
+        {"word": "one", "hint": "The number"},
+        {"word": "play", "hint": null},
+        {"word": "red", "hint": "The color"},
+        {"word": "run", "hint": null},
+        {"word": "said", "hint": null},
+        {"word": "see", "hint": null},
+        {"word": "the", "hint": null},
+        {"word": "three", "hint": null},
+        {"word": "to", "hint": "A direction"},
+        {"word": "two", "hint": "The number"},
+        {"word": "up", "hint": null},
+        {"word": "we", "hint": null},
+        {"word": "where", "hint": "Nothing to with getting dressed"},
+        {"word": "yellow", "hint": null},
+        {"word": "you", "hint": null}
+    ]
+}
