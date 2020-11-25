@@ -1,0 +1,26 @@
+{
+    "title": "Dolch Sight Words, Pre-K (A)",
+    "audioPath": "dolch-sight-words/pre-k-a",
+    "words": [
+        {"word": "a", "hint": null},
+        {"word": "and", "hint": null},
+        {"word": "away", "hint": null},
+        {"word": "big", "hint": null},
+        {"word": "blue", "hint": null},
+        {"word": "can", "hint": null},
+        {"word": "come", "hint": null},
+        {"word": "down", "hint": null},
+        {"word": "find", "hint": null},
+        {"word": "for", "hint": "Not the number"},
+        {"word": "funny", "hint": null},
+        {"word": "go", "hint": null},
+        {"word": "help", "hint": null},
+        {"word": "here", "hint": "Close by"},
+        {"word": "I", "hint": "Not the \"eye\" that sees"},
+        {"word": "in", "hint": null},
+        {"word": "is", "hint": null},
+        {"word": "it", "hint": null},
+        {"word": "jump", "hint": null},
+        {"word": "little", "hint": null}
+    ]
+}
