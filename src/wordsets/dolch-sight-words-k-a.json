@@ -1,0 +1,23 @@
+{
+    "title": "Dolch Sight Words, K (A)",
+    "audioPath": "dolch-sight-words/k-a",
+    "words": [
+        {"word": "all", "hint": null},
+        {"word": "am", "hint": null},
+        {"word": "are", "hint": null},
+        {"word": "at", "hint": null},
+        {"word": "ate", "hint": "Not the number"},
+        {"word": "be", "hint": "Not the insect"},
+        {"word": "black", "hint": null},
+        {"word": "brown", "hint": null},
+        {"word": "but", "hint": null},
+        {"word": "came", "hint": null},
+        {"word": "did", "hint": null},
+        {"word": "do", "hint": "Meaning \"act\""},
+        {"word": "eat", "hint": null},
+        {"word": "four", "hint": "The number"},
+        {"word": "get", "hint": null},
+        {"word": "good", "hint": null},
+        {"word": "have", "hint": null}
+    ]
+}

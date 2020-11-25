@@ -1,0 +1,24 @@
+{
+    "title": "Dolch Sight Words, K (C)",
+    "audioPath": "dolch-sight-words/k-c",
+    "words": [
+        {"word": "so", "hint": "Not needle and thread"},
+        {"word": "soon", "hint": null},
+        {"word": "that", "hint": null},
+        {"word": "there", "hint": "Opposite of here"},
+        {"word": "they", "hint": null},
+        {"word": "this", "hint": null},
+        {"word": "too", "hint": "Meaning \"also\""},
+        {"word": "under", "hint": null},
+        {"word": "want", "hint": null},
+        {"word": "was", "hint": null},
+        {"word": "well", "hint": null},
+        {"word": "went", "hint": null},
+        {"word": "what", "hint": null},
+        {"word": "white", "hint": null},
+        {"word": "who", "hint": null},
+        {"word": "will", "hint": null},
+        {"word": "with", "hint": null},
+        {"word": "yes", "hint": null}
+    ]
+}

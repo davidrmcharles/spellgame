@@ -1,0 +1,23 @@
+{
+    "title": "Dolch Sight Words, K (B)",
+    "audioPath": "dolch-sight-words/k-b",
+    "words": [
+        {"word": "he", "hint": null},
+        {"word": "into", "hint": null},
+        {"word": "like", "hint": null},
+        {"word": "must", "hint": null},
+        {"word": "new", "hint": "Opposite of \"old\""},
+        {"word": "no", "hint": "Opposite of \"yes\""},
+        {"word": "now", "hint": null},
+        {"word": "on", "hint": null},
+        {"word": "our", "hint": "Meaning belonging to us"},
+        {"word": "out", "hint": null},
+        {"word": "please", "hint": null},
+        {"word": "pretty", "hint": null},
+        {"word": "ran", "hint": null},
+        {"word": "ride", "hint": null},
+        {"word": "saw", "hint": null},
+        {"word": "say", "hint": null},
+        {"word": "she", "hint": null}
+    ]
+}
