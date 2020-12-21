@@ -1,0 +1,18 @@
+{
+    "title": "Gloria Patri",
+    "audioPath": "missa/gloria-patri",
+    "words": [
+        {"word": "gloria", "hint": "glory"},
+        {"word": "patri", "hint": "to father (dative)"},
+        {"word": "filio", "hint": "to son (dative)"},
+        {"word": "spiritui", "hint": "to spirit (dative)"},
+        {"word": "sancto", "hint": "to holy (dative)"},
+        {"word": "sicut", "hint": "as"},
+        {"word": "erat", "hint": "it was"},
+        {"word": "principio", "hint": "beginning (ablative)"},
+        {"word": "nunc", "hint": "now"},
+        {"word": "semper", "hint": "always"},
+        {"word": "saecula", "hint": "age (ablative)"},
+        {"word": "saeculorum", "hint": "of ages"}
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "title": "Agnus Dei",
+    "audioPath": "missa/agnus-dei",
+    "words": [
+        {"word": "agnus", "hint": "lamb"},
+        {"word": "dei", "hint": "of God"},
+        {"word": "qui", "hint": "who"},
+        {"word": "tollis", "hint": "you take"},
+        {"word": "peccata", "hint": "sins (plural, accusative)"},
+        {"word": "mundi", "hint": "of the world"},
+        {"word": "miserere", "hint": "have mercy"},
+        {"word": "nobis", "hint": "to us (plural, dative)"},
+        {"word": "dona", "hint": "grant"},
+        {"word": "pacem", "hint": "peace (accusative)"}
+    ]
+}

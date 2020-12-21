@@ -1,0 +1,11 @@
+{
+    "title": "Signum Crucis",
+    "audioPath": "missa/signum-crucis",
+    "words": [
+        {"word": "nomine", "hint": "name (ablative)"},
+        {"word": "patris", "hint": "of father"},
+        {"word": "filii", "hint": "of son"},
+        {"word": "spiritus", "hint": "of spirit"},
+        {"word": "sancti", "hint": "of holy"}
+    ]
+}

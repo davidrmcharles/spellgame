@@ -1,0 +1,9 @@
+{
+    "title": "Kyrie",
+    "audioPath": "missa/kyrie",
+    "words": [
+        {"word": "Kyrie", "hint": "Lord! (vocative)"},
+        {"word": "eleison", "hint": "have mercy"},
+        {"word": "Christe", "hint": "Christ! (vocative)"}
+    ]
+}
