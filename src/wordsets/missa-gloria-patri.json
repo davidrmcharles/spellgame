@@ -12,7 +12,7 @@
         {"word": "principio", "hint": "beginning (ablative)"},
         {"word": "nunc", "hint": "now"},
         {"word": "semper", "hint": "always"},
-        {"word": "saecula", "hint": "age (ablative)"},
+        {"word": "saecula", "hint": "age (plural, accusative)"},
         {"word": "saeculorum", "hint": "of ages"}
     ]
 }
